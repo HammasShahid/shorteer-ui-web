@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as authRouteRouteImport } from './routes/(auth)/route'
 import { Route as publicIndexRouteImport } from './routes/(public)/index'
 import { Route as authRegisterRouteImport } from './routes/(auth)/register'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
 
 const authRouteRoute = authRouteRouteImport.update({
   id: '/(auth)',
@@ -27,27 +28,40 @@ const authRegisterRoute = authRegisterRouteImport.update({
   path: '/register',
   getParentRoute: () => authRouteRoute,
 } as any)
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => authRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/': typeof publicIndexRoute
 }
 export interface FileRoutesByTo {
+  '/login': typeof authLoginRoute
   '/register': typeof authRegisterRoute
   '/': typeof publicIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/(auth)': typeof authRouteRouteWithChildren
+  '/(auth)/login': typeof authLoginRoute
   '/(auth)/register': typeof authRegisterRoute
   '/(public)/': typeof publicIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/register' | '/'
+  fullPaths: '/login' | '/register' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/register' | '/'
-  id: '__root__' | '/(auth)' | '/(auth)/register' | '/(public)/'
+  to: '/login' | '/register' | '/'
+  id:
+    | '__root__'
+    | '/(auth)'
+    | '/(auth)/login'
+    | '/(auth)/register'
+    | '/(public)/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -78,14 +92,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof authRegisterRouteImport
       parentRoute: typeof authRouteRoute
     }
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof authRouteRoute
+    }
   }
 }
 
 interface authRouteRouteChildren {
+  authLoginRoute: typeof authLoginRoute
   authRegisterRoute: typeof authRegisterRoute
 }
 
 const authRouteRouteChildren: authRouteRouteChildren = {
+  authLoginRoute: authLoginRoute,
   authRegisterRoute: authRegisterRoute,
 }
 
