@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
+import AuthNavbar from "@/components/navbars/AuthNavbar.tsx";
 
 export const Route = createFileRoute("/(auth)")({
   component: AuthLayout,
@@ -6,8 +7,11 @@ export const Route = createFileRoute("/(auth)")({
 
 function AuthLayout() {
   return (
-    <main className="min-h-dvh bg-muted grid place-items-center">
-      <Outlet />
-    </main>
+    <>
+      <AuthNavbar />
+      <main className="bg-muted min-h-[calc(100dvh-4rem)] grid place-items-center">
+        <Outlet />
+      </main>
+    </>
   );
 }
