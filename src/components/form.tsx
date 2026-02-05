@@ -159,3 +159,24 @@ export const FormInput: FormControlFunc = (props) => {
 //     </FormBase>
 //   );
 // };
+
+// const FormRootError = React.forwardRef<
+//   HTMLParagraphElement,
+//   React.HTMLAttributes<HTMLParagraphElement>
+// >(({ className, ...props }, ref) => {
+//   const { errors } = useFormState();
+//   const rootError = errors.root;
+//   if (!rootError) {
+//     return null;
+//   }
+//   return (
+//     <p
+//       ref={ref}
+//       className={cn("text-destructive text-sm font-medium", className)}
+//       {...props}
+//     >
+//       {rootError.message}
+//     </p>
+//   );
+// });
+// FormRootError.displayName = "FormRootError";

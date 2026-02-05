@@ -24,7 +24,7 @@ export const RegisterUserSchema = z
       .min(3, "Username must be at least 3 characters")
       .max(30, "Username cannot be greater than 30 characters"),
     password: PasswordSchema,
-    confirmPassword: z.string(),
+    confirmPassword: z.string("Please enter confirm password"),
   })
   .refine((fields) => fields.password === fields.confirmPassword, {
     message: "Passwords do not match",
