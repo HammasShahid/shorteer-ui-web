@@ -6,13 +6,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card.tsx";
-import { FieldGroup, FieldSeparator } from "@/components/ui/field.tsx";
+import {
+  FieldGroup,
+  FieldSeparator,
+  RootError,
+} from "@/components/ui/field.tsx";
 import { FormInput } from "@/components/form.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas";
+import { useAuthMutations } from "@/hooks/useAuthMutations.ts";
 
 export const Route = createFileRoute("/(auth)/login")({
   component: LoginComponent,
@@ -23,9 +28,17 @@ function LoginComponent() {
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
   });
+  const { loginMutation } = useAuthMutations();
 
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
-
+    loginMutation.mutate(data, {
+      onError: (error) => {
+        form.setError("root", {
+          message:
+            error.response?.data?.message ?? "Login failed please try again.",
+        });
+      },
+    });
   };
 
   return (
@@ -52,6 +65,7 @@ function LoginComponent() {
               Login
             </Button>
           </FieldGroup>
+          <RootError error={form.formState.errors.root} />
         </form>
       </CardContent>
       <FieldSeparator />
