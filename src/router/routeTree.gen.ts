@@ -8,14 +8,14 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as publicRouteRouteImport } from './routes/(public)/route'
-import { Route as authRouteRouteImport } from './routes/(auth)/route'
-import { Route as appRouteRouteImport } from './routes/(app)/route'
-import { Route as publicIndexRouteImport } from './routes/(public)/index'
-import { Route as authRegisterRouteImport } from './routes/(auth)/register'
-import { Route as authLoginRouteImport } from './routes/(auth)/login'
-import { Route as appDashboardRouteImport } from './routes/(app)/dashboard'
+import { Route as rootRouteImport } from './../routes/__root'
+import { Route as publicRouteRouteImport } from './../routes/(public)/route'
+import { Route as authRouteRouteImport } from './../routes/(auth)/route'
+import { Route as appRouteRouteImport } from './../routes/(app)/route'
+import { Route as publicIndexRouteImport } from './../routes/(public)/index'
+import { Route as authRegisterRouteImport } from './../routes/(auth)/register'
+import { Route as authLoginRouteImport } from './../routes/(auth)/login'
+import { Route as appDashboardRouteImport } from './../routes/(app)/dashboard'
 
 const publicRouteRoute = publicRouteRouteImport.update({
   id: '/(public)',
