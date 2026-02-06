@@ -7,7 +7,7 @@ import {
   type RegisterUserResponse,
 } from "@/lib/api/auth.ts";
 import { setAccessToken } from "@/lib/api/client.ts";
-import { useAuthStore } from "@/lib/api/auth.store.ts";
+import { useAuthStore } from "@/lib/auth/auth.store.ts";
 import type { AxiosError } from "axios";
 import { LoginSchema, RegisterUserSchema } from "@/schemas";
 import z from "zod";
@@ -33,7 +33,6 @@ export function useAuthMutations() {
         });
         await navigate({ to: "/dashboard", replace: true });
       } catch {
-        setAccessToken(null);
         clearAuth();
       }
     },

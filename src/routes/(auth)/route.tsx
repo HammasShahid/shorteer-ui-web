@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import AuthNavbar from "@/components/navbars/AuthNavbar.tsx";
-import { useAuthStore } from "@/lib/api/auth.store.ts";
+import { useAuthStore } from "@/lib/auth/auth.store.ts";
 
 export const Route = createFileRoute("/(auth)")({
   component: AuthLayout,
