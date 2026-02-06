@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -39,7 +39,6 @@ function RegisterComponent() {
             password: variables.password,
           },
           {
-            // onError: (error: AxiosError<{ message?: string }>) => {
             onError: () => {
               form.setError("root", {
                 message:
