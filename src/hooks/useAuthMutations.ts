@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import {
   type JWTResponse,
   login,
+  logout,
   me,
   register,
   type RegisterUserResponse,
@@ -46,5 +47,17 @@ export function useAuthMutations() {
     mutationFn: register,
   });
 
-  return { registerMutation, loginMutation };
+  const logoutMutation = useMutation<
+    void,
+    AxiosError<{ message?: string }>,
+    void
+  >({
+    mutationFn: logout,
+    onSuccess: async () => {
+      clearAuth();
+      await navigate({ to: "/login" });
+    },
+  });
+
+  return { registerMutation, loginMutation, logoutMutation };
 }

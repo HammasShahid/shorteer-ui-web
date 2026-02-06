@@ -18,22 +18,40 @@ type MeResponse = {
   username: string;
 };
 
-export const login = async (data: z.infer<typeof LoginSchema>) => {
-  const res = await api.post("/auth/login", data);
-  return res.data as JWTResponse;
+export const login = async (requestData: z.infer<typeof LoginSchema>) => {
+  const { data } = await api.post<JWTResponse>("/auth/login", requestData);
+  // const res = await api.post("/auth/login", data);
+  // return res.data as JWTResponse;
+  return data;
 };
 
-export const register = async (data: z.infer<typeof RegisterUserSchema>) => {
-  const res = await api.post("/auth/register", data);
-  return res.data as RegisterUserResponse;
+export const register = async (
+  requestData: z.infer<typeof RegisterUserSchema>,
+) => {
+  const { data } = await api.post<RegisterUserResponse>(
+    "/auth/register",
+    requestData,
+  );
+  // const res = await api.post("/auth/register", data);
+  // return res.data as RegisterUserResponse;
+  return data;
 };
 
 export const refresh = async () => {
-  const res = await api.post("/auth/refresh");
-  return res.data as JWTResponse;
+  const { data } = await api.post<JWTResponse>("/auth/refresh");
+  // const res = await api.post("/auth/refresh");
+  // return res.data as JWTResponse;
+  return data;
 };
 
 export const me = async () => {
-  const res = await api.get("/auth/me");
-  return res.data as MeResponse;
+  const { data } = await api.get<MeResponse>("/auth/me");
+  // const res = await api.get<MeResponse>("/auth/me");
+  // return res.data;
+  return data;
+};
+
+export const logout = async () => {
+  const { data } = await api.post<void>("/auth/logout");
+  return data;
 };
