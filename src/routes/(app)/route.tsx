@@ -15,7 +15,9 @@ function RouteComponent() {
   return (
     <>
       <AppNavbar />
-      <Outlet />
+      <main className="container mx-auto min-h-[calc(100dvh-4rem)] p-5">
+        <Outlet />
+      </main>
     </>
   );
 }
