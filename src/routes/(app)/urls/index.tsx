@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchUrls, type Url } from "@/lib/api/urls.ts";
 import type { AxiosError } from "axios";
 import UrlItem from "@/components/urls/UrlItem.tsx";
+import NewUrlForm from "@/components/urls/NewUrlForm.tsx";
 
 export const Route = createFileRoute("/(app)/urls/")({
   component: UrlsComponent,
@@ -20,6 +21,8 @@ function UrlsComponent() {
   return (
     <div className="space-y-5">
       <h2 className="text-primary text-2xl font-bold">My Urls</h2>
+      <NewUrlForm />
+
       {isLoading ? (
         <> Loading... </>
       ) : (
