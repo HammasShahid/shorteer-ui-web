@@ -23,8 +23,6 @@ export type RegisterUser = z.infer<typeof RegisterUserSchema>;
 
 export const login = async (requestData: Login) => {
   const { data } = await api.post<JWTResponse>("/auth/login", requestData);
-  // const res = await api.post("/auth/login", data);
-  // return res.data as JWTResponse;
   return data;
 };
 
@@ -33,22 +31,16 @@ export const register = async (requestData: RegisterUser) => {
     "/auth/register",
     requestData,
   );
-  // const res = await api.post("/auth/register", data);
-  // return res.data as RegisterUserResponse;
   return data;
 };
 
 export const refresh = async () => {
   const { data } = await api.post<JWTResponse>("/auth/refresh");
-  // const res = await api.post("/auth/refresh");
-  // return res.data as JWTResponse;
   return data;
 };
 
 export const me = async () => {
   const { data } = await api.get<MeResponse>("/auth/me");
-  // const res = await api.get<MeResponse>("/auth/me");
-  // return res.data;
   return data;
 };
 
