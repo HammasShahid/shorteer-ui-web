@@ -4,6 +4,7 @@ import { fetchUrls, type Url } from "@/lib/api/urls.ts";
 import type { AxiosError } from "axios";
 import UrlItem from "@/components/urls/UrlItem.tsx";
 import NewUrlForm from "@/components/urls/NewUrlForm.tsx";
+import type { ApiError } from "@/lib/api/error-handler.ts";
 
 export const Route = createFileRoute("/(app)/urls/")({
   component: UrlsComponent,
@@ -12,7 +13,7 @@ export const Route = createFileRoute("/(app)/urls/")({
 function UrlsComponent() {
   const { data, isLoading, isError, error } = useQuery<
     Url[],
-    AxiosError<{ message?: string }>
+    AxiosError<ApiError>
   >({
     queryKey: ["urls"],
     queryFn: fetchUrls,

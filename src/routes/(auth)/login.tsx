@@ -18,6 +18,7 @@ import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas";
 import { useAuthMutations } from "@/hooks/useAuthMutations.ts";
+import { applyFormErrors } from "@/lib/api/error-handler.ts";
 
 export const Route = createFileRoute("/(auth)/login")({
   component: LoginComponent,
@@ -33,10 +34,7 @@ function LoginComponent() {
   const onSubmit = (data: z.infer<typeof LoginSchema>) => {
     loginMutation.mutate(data, {
       onError: (error) => {
-        form.setError("root", {
-          message:
-            error.response?.data?.message ?? "Login failed please try again.",
-        });
+        applyFormErrors(form, error, "Login failed please try again");
       },
     });
   };

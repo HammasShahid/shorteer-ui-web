@@ -13,6 +13,7 @@ import type { AxiosError } from "axios";
 import { LoginSchema, RegisterUserSchema } from "@/schemas";
 import z from "zod";
 import { useNavigate } from "@tanstack/react-router";
+import type { ApiError } from "@/lib/api/error-handler.ts";
 
 export function useAuthMutations() {
   const { setAuth, clearAuth } = useAuthStore();
@@ -20,7 +21,7 @@ export function useAuthMutations() {
 
   const loginMutation = useMutation<
     JWTResponse,
-    AxiosError<{ message?: string }>,
+    AxiosError<ApiError>,
     z.infer<typeof LoginSchema>
   >({
     mutationFn: login,
@@ -41,17 +42,13 @@ export function useAuthMutations() {
 
   const registerMutation = useMutation<
     RegisterUserResponse,
-    AxiosError<{ message?: string }>,
+    AxiosError<ApiError>,
     z.infer<typeof RegisterUserSchema>
   >({
     mutationFn: register,
   });
 
-  const logoutMutation = useMutation<
-    void,
-    AxiosError<{ message?: string }>,
-    void
-  >({
+  const logoutMutation = useMutation<void, AxiosError<ApiError>, void>({
     mutationFn: logout,
     onSuccess: async () => {
       clearAuth();

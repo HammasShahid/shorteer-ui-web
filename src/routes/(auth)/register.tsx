@@ -18,6 +18,7 @@ import {
 import { RegisterUserSchema } from "@/schemas";
 import { FormInput } from "@/components/form.tsx";
 import { useAuthMutations } from "@/hooks/useAuthMutations.ts";
+import { applyFormErrors } from "@/lib/api/error-handler.ts";
 
 export const Route = createFileRoute("/(auth)/register")({
   component: RegisterComponent,
@@ -39,21 +40,18 @@ function RegisterComponent() {
             password: variables.password,
           },
           {
-            onError: () => {
-              form.setError("root", {
-                message:
-                  "Account created, but login failed. Please login manually",
-              });
+            onError: (error) => {
+              applyFormErrors(
+                form,
+                error,
+                "Account created, but login failed. Please login manually",
+              );
             },
           },
         );
       },
       onError: (error) => {
-        form.setError("root", {
-          message:
-            error.response?.data?.message ??
-            "Registration failed, please try again later",
-        });
+        applyFormErrors(form, error);
       },
     });
   }

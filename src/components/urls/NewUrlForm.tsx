@@ -20,8 +20,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { NewUrlSchema } from "@/schemas";
 import { FormInput } from "@/components/form.tsx";
 import type { AxiosError } from "axios";
+import { type ApiError, applyFormErrors } from "@/lib/api/error-handler.ts";
+import { useState } from "react";
 
 export default function NewUrlForm() {
+  const [open, setOpen] = useState(false);
+
   const form = useForm<NewUrl>({
     defaultValues: {
       url: "",
@@ -30,30 +34,13 @@ export default function NewUrlForm() {
     mode: "onChange",
   });
 
-  const mutation = useMutation<
-    NewUrlResponse,
-    AxiosError<{ url?: string; message?: string }>,
-    NewUrl
-  >({
+  const mutation = useMutation<NewUrlResponse, AxiosError<ApiError>, NewUrl>({
     mutationFn: shortenUrl,
+    onSuccess: () => {
+      setOpen(false);
+    },
     onError: (e) => {
-      let url, message;
-      if (e.response?.data) {
-        url = e.response.data.url;
-        message = e.response.data.message;
-      }
-
-      if (url) {
-        form.setError("url", {
-          message: url,
-        });
-      }
-
-      if (message) {
-        form.setError("root", {
-          message: e.response?.data.message || "Something went wrong",
-        });
-      }
+      applyFormErrors(form, e);
     },
   });
 
@@ -62,7 +49,7 @@ export default function NewUrlForm() {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <form id="new-url-form" onSubmit={form.handleSubmit(onSubmit)}>
         <DialogTrigger asChild>
           <Button variant="outline">New URL</Button>
