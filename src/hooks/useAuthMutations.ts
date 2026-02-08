@@ -1,17 +1,17 @@
 import { useMutation } from "@tanstack/react-query";
 import {
   type JWTResponse,
+  type Login,
   login,
   logout,
   me,
   register,
+  type RegisterUser,
   type RegisterUserResponse,
 } from "@/lib/api/auth.ts";
 import { setAccessToken } from "@/lib/api/client.ts";
 import { useAuthStore } from "@/lib/auth/auth.store.ts";
 import type { AxiosError } from "axios";
-import { LoginSchema, RegisterUserSchema } from "@/schemas";
-import z from "zod";
 import { useNavigate } from "@tanstack/react-router";
 import type { ApiError } from "@/lib/api/error-handler.ts";
 
@@ -19,11 +19,7 @@ export function useAuthMutations() {
   const { setAuth, clearAuth } = useAuthStore();
   const navigate = useNavigate();
 
-  const loginMutation = useMutation<
-    JWTResponse,
-    AxiosError<ApiError>,
-    z.infer<typeof LoginSchema>
-  >({
+  const loginMutation = useMutation<JWTResponse, AxiosError<ApiError>, Login>({
     mutationFn: login,
     onSuccess: async (data) => {
       try {
@@ -43,7 +39,7 @@ export function useAuthMutations() {
   const registerMutation = useMutation<
     RegisterUserResponse,
     AxiosError<ApiError>,
-    z.infer<typeof RegisterUserSchema>
+    RegisterUser
   >({
     mutationFn: register,
   });

@@ -14,24 +14,24 @@ import {
 import { FormInput } from "@/components/form.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { useForm } from "react-hook-form";
-import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas";
 import { useAuthMutations } from "@/hooks/useAuthMutations.ts";
 import { applyFormErrors } from "@/lib/api/error-handler.ts";
+import type { Login } from "@/lib/api/auth.ts";
 
 export const Route = createFileRoute("/(auth)/login")({
   component: LoginComponent,
 });
 
 function LoginComponent() {
-  const form = useForm<z.infer<typeof LoginSchema>>({
+  const form = useForm<Login>({
     resolver: zodResolver(LoginSchema),
     mode: "onChange",
   });
   const { loginMutation } = useAuthMutations();
 
-  const onSubmit = (data: z.infer<typeof LoginSchema>) => {
+  const onSubmit = (data: Login) => {
     loginMutation.mutate(data, {
       onError: (error) => {
         applyFormErrors(form, error, "Login failed please try again");

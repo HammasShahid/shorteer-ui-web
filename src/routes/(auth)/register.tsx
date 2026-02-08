@@ -1,6 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   FieldGroup,
   FieldSeparator,
@@ -19,19 +18,20 @@ import { RegisterUserSchema } from "@/schemas";
 import { FormInput } from "@/components/form.tsx";
 import { useAuthMutations } from "@/hooks/useAuthMutations.ts";
 import { applyFormErrors } from "@/lib/api/error-handler.ts";
+import type { RegisterUser } from "@/lib/api/auth.ts";
 
 export const Route = createFileRoute("/(auth)/register")({
   component: RegisterComponent,
 });
 
 function RegisterComponent() {
-  const form = useForm<z.infer<typeof RegisterUserSchema>>({
+  const form = useForm<RegisterUser>({
     resolver: zodResolver(RegisterUserSchema),
     mode: "onChange",
   });
   const { registerMutation, loginMutation } = useAuthMutations();
 
-  async function onSubmit(data: z.infer<typeof RegisterUserSchema>) {
+  async function onSubmit(data: RegisterUser) {
     registerMutation.mutate(data, {
       onSuccess: ({ email }, variables) => {
         loginMutation.mutate(

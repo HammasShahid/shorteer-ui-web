@@ -18,16 +18,17 @@ type MeResponse = {
   username: string;
 };
 
-export const login = async (requestData: z.infer<typeof LoginSchema>) => {
+export type Login = z.infer<typeof LoginSchema>;
+export type RegisterUser = z.infer<typeof RegisterUserSchema>;
+
+export const login = async (requestData: Login) => {
   const { data } = await api.post<JWTResponse>("/auth/login", requestData);
   // const res = await api.post("/auth/login", data);
   // return res.data as JWTResponse;
   return data;
 };
 
-export const register = async (
-  requestData: z.infer<typeof RegisterUserSchema>,
-) => {
+export const register = async (requestData: RegisterUser) => {
   const { data } = await api.post<RegisterUserResponse>(
     "/auth/register",
     requestData,
